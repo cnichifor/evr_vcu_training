@@ -4,6 +4,7 @@
 #include "leds.h++"
 #include "task.h++"
 #include "isr.h++"
+#include "timer.h++"
 
 void setLedsState(uint8_t state) {
   led_resetD(TASK1_LED1_D);
@@ -54,7 +55,12 @@ void task2() {
   for (volatile uint32_t i = 0; i < 10000; ++i) {}
 }
 
-
+void task4() {
+  if (elapsed){
+    elapsed = 0;
+    task1();
+  }
+}
 
 // Init tasks
 void task1_init() {
@@ -78,4 +84,8 @@ void task3_init() {
   button_interrupt1_on_falling_edge_enableD();
 
   sei();
+}
+
+void task4_init() {
+  timer1_init();
 }
