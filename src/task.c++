@@ -5,6 +5,7 @@
 #include "task.h++"
 #include "isr.h++"
 #include "timer.h++"
+#include "adc.h++"
 
 void setLedsState(uint8_t state) {
   led_resetD(TASK1_LED1_D);
@@ -62,6 +63,22 @@ void task4() {
   }
 }
 
+void task5() {
+  static uint8_t inc = +1;
+  if (OCR0B >= 250) {
+    inc = -50;
+  } else if (OCR0B == 0) {
+    inc = +50;
+  }
+  OCR0B += inc;
+}
+
+void task6() {
+  ADCSRA |= (1 << ADSC);
+  while (ADCSRA & (1 << ADSC)) {}
+  OCR0A = ADCH;
+}
+
 // Init tasks
 void task1_init() {
   led_initD(TASK1_LED1_D);
@@ -88,4 +105,15 @@ void task3_init() {
 
 void task4_init() {
   timer1_init();
+}
+
+void task5_init() {
+  timer0_init();
+  led_initD(TASK5_LED_D);
+}
+
+void task6_init() {
+  adc_init(TASK6_ADCPIN);
+  // timer0_init();
+  led_initD(TASK6_LED_D);
 }

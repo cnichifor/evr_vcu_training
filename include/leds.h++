@@ -10,6 +10,10 @@
 
 #define TASK3_LED_C 3
 
+#define TASK5_LED_D 5
+
+#define TASK6_LED_D 6
+
 void leds_initD();
 void led_initD(int led);
 

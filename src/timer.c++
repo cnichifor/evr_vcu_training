@@ -19,7 +19,15 @@ void timer1_init() {
   TCCR1B = (1 << CS12) | (1 << WGM12); // CTC, prescaler 256
 }
 
+void timer0_init() {
+    TCCR0A = (1 << WGM01) | (1 << WGM00)
+           | (1 << COM0B1) | (1 << COM0A1);
+
+    TCCR0B = (1 << CS01) | (1 << CS00);
+
+    OCR0B = 0;
+}
+
 ISR(TIMER1_COMPA_vect) {
   elapsed = 1; 
-  
 }
